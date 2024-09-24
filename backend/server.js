@@ -18,7 +18,7 @@ app.post('/generate-upi-link', (req, res) => {
   res.json({ upiLink });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Express server running on http://localhost:${PORT}`);
 });
