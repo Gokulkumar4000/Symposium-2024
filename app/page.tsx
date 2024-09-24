@@ -1,101 +1,151 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from 'react';
+import Header from './components/Header';
+import FormInput from './components/FormInput';
+import EventSelection from './components/EventSelection';
+import ProceedButton from './components/ProceedButton';
+
+interface Event {
+  time: string;
+  name: string;
+  type: "Technical" | "Non-Technical"; // Event type
+}
+
+const Home: React.FC = () => {
+  // Form state
+  const [firstName, setFirstName] = useState('');
+  const [Clgname, setClgname] = useState('');
+  const [email, setEmail] = useState('');
+  const [contact, setContact] = useState('');
+
+  // Event selection state (one state per slot)
+  const [slot1Selected, setSlot1Selected] = useState<string | null>(null);
+  const [slot2Selected, setSlot2Selected] = useState<string | null>(null);
+  const [slot3Selected, setSlot3Selected] = useState<string | null>(null);
+
+  // Check if the form is filled
+  const isFormValid = firstName.trim() !== '' && Clgname.trim() !== '' && email.trim() !== '';
+
+  // Check if at least one event is selected
+  const isEventSelected = slot1Selected !== null || slot2Selected !== null || slot3Selected !== null;
+
+  // Button should be enabled if form is valid and at least one event is selected
+  const isButtonDisabled = !isFormValid || !isEventSelected;
+
+  // Group the events by type for Slot 1
+  const slot1TechnicalEvents: Event[] = [
+    { time: '10:00AM - 11:30AM', name: 'Idea Exchange', type: 'Technical' },
+  ];
+
+  const slot1NonTechnicalEvents: Event[] = [
+    { time: '10:00AM - 11:30AM', name: 'IPL Audition', type: 'Non-Technical' },
+  ];
+
+  // Group the events by type for Slot 2
+  const slot2TechnicalEvents: Event[] = [
+    { time: '12:00PM - 1:00PM', name: 'Code Clash', type: 'Technical' },
+    { time: '12:00PM - 1:00PM', name: 'Visionary Art', type: 'Technical' },
+  ];
+
+  const slot2NonTechnicalEvents: Event[] = [
+    { time: '12:00PM - 1:00PM', name: 'Mobile Photography', type: 'Non-Technical' },
+    { time: '12:00PM - 1:00PM', name: 'X-O Game', type: 'Non-Technical' },
+  ];
+  // Group the events by type for Slot 3
+  const slot3TechnicalEvents: Event[] = [
+    { time: '2:00PM - 3:10PM', name: 'Web Warriors', type: 'Technical' },
+  ];
+
+  const slot3NonTechnicalEvents: Event[] = [
+    { time: '2:00PM - 3:10PM', name: 'Solo Dance', type: 'Non-Technical' },
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div
+      className="relative flex size-full min-h-screen flex-col bg-white overflow-x-hidden"
+      style={{ fontFamily: 'Manrope, Noto Sans, sans-serif' }}
+    >
+      <Header />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <FormInput
+        label="Name"
+        placeholder="Name"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)} // Track input changes
+      />
+      <FormInput
+        label="College Name"
+        placeholder="College name"
+        value={Clgname}
+        onChange={(e) => setClgname(e.target.value)} // Track input changes
+      />
+      <FormInput
+        label="Email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)} // Track input changes
+      />
+      <FormInput
+        label="Contact"
+        placeholder="Contact"
+        value={contact}
+        onChange={(e) => setContact(e.target.value)} // Track input changes
+      />
+
+      {/* Slot 1 */}
+      <EventSelection
+        slotTitle="Slot 1"
+        slotType="Technical Events"
+        SlotTime="10:00AM - 11:30AM"
+        events={slot1TechnicalEvents}
+        selectedEvent={slot1Selected} // Track Slot 1 selection
+        onSelectionChange={setSlot1Selected} // Handle Slot 1 selection change
+      />
+      <EventSelection
+        slotType="Non-Technical Events"
+        SlotTime="10:00AM - 11:30AM"
+        events={slot1NonTechnicalEvents}
+        selectedEvent={slot1Selected} // Track Slot 1 selection
+        onSelectionChange={setSlot1Selected} // Handle Slot 1 selection change
+      />
+
+      {/* Slot 2 */}
+      <EventSelection
+        slotTitle="Slot 2"
+        slotType="Technical Events"
+        SlotTime="12:00PM - 1:00PM"
+        events={slot2TechnicalEvents}
+        selectedEvent={slot2Selected} // Track Slot 2 selection
+        onSelectionChange={setSlot2Selected} // Handle Slot 2 selection change
+      />
+      <EventSelection
+        slotType="Non-Technical Events"
+        SlotTime="12:00PM - 1:00PM"
+        events={slot2NonTechnicalEvents}
+        selectedEvent={slot2Selected} // Track Slot 2 selection
+        onSelectionChange={setSlot2Selected} // Handle Slot 2 selection change
+      />
+      {/* Slot 3 */}
+      <EventSelection
+        slotTitle="Slot 3"
+        slotType="Technical Events"
+        SlotTime="2:00PM - 3:10PM"
+        events={slot3TechnicalEvents}
+        selectedEvent={slot3Selected} // Track Slot 2 selection
+        onSelectionChange={setSlot3Selected} // Handle Slot 2 selection change
+      />
+      <EventSelection
+        slotType="Non-Technical Events"
+        SlotTime="2:00PM - 3:10PM"
+        events={slot3NonTechnicalEvents}
+        selectedEvent={slot3Selected} // Track Slot 2 selection
+        onSelectionChange={setSlot3Selected} // Handle Slot 2 selection change
+      />
+
+      <ProceedButton disabled={isButtonDisabled} />
     </div>
   );
-}
+};
+
+export default Home;
