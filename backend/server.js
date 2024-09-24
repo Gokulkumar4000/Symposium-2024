@@ -1,12 +1,11 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow CORS for Next.js frontend
+app.use(cors());
 app.use(express.json());
 
-// Generate UPI link dynamically and send it to the frontend
+// Your UPI link generation endpoint
 app.post('/generate-upi-link', (req, res) => {
   const { amount } = req.body;
 
@@ -18,7 +17,8 @@ app.post('/generate-upi-link', (req, res) => {
   res.json({ upiLink });
 });
 
+// Use the PORT environment variable or default to 5000 if not set
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Express server running on http://localhost:${PORT}`);
+  console.log(`Express server running on port ${PORT}`);
 });
