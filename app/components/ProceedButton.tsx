@@ -11,7 +11,7 @@ const ProceedButton: React.FC<ProceedButtonProps> = ({ disabled }) => {
     if (!disabled) {
       try {
         // Make a request to the Express backend running on port 5000
-        const response = await fetch('http://localhost:5000/generate-upi-link', {
+        const response = await fetch('https://symposium-2024.onrender.com/generate-upi-link', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

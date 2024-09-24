@@ -1,11 +1,16 @@
-const express = require('express');
 const cors = require('cors');
+const express = require('express');
 const app = express();
 
-app.use(cors());
+// Allow requests only from your Netlify frontend domain
+const corsOptions = {
+  origin: 'https://symposium-2024.netlify.app', // Replace with your Netlify frontend URL
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions)); // Use CORS with specific options
 app.use(express.json());
 
-// Your UPI link generation endpoint
 app.post('/generate-upi-link', (req, res) => {
   const { amount } = req.body;
 
@@ -17,8 +22,8 @@ app.post('/generate-upi-link', (req, res) => {
   res.json({ upiLink });
 });
 
-// Use the PORT environment variable or default to 5000 if not set
+// Use the dynamic PORT or default to 5000
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Express server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
